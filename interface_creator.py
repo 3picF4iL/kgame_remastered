@@ -4,6 +4,7 @@ Created on 17 kwi 2018
 @author: JakubF
 @refactor: KamilG
 '''
+from misc_functions import clsrc
 
 class InterfaceCreator(object):
     '''
@@ -61,6 +62,8 @@ class InterfaceCreator(object):
         self.p1Points = 0
         self.p2Points = 0
         self.score = "|"
+        self.p1ScorePoints = 0
+        self.p2ScorePoints = 0
 
     def points_increase(self, side):
         '''
@@ -100,8 +103,10 @@ class InterfaceCreator(object):
         '''
         if side:
             self.score = "*" + self.score
+            self.p1ScorePoints += 1
         else:
             self.score = self.score + "*"
+            self.p2ScorePoints += 1
         self.p2Points = 0
         self.p1Points = 0
 
@@ -169,3 +174,31 @@ class InterfaceCreator(object):
             3) + self._board_symbol + "\n"
 
         return text
+
+    def check_score(self, amount):
+        if self.p1Points + self.p2Points >= amount:
+            if self.p1Points > self.p2Points:
+                self.score_increase(True)
+            elif self.p2Points > self.p1Points:
+                self.score_increase(False)
+            return True
+
+    def check_win(self):
+        if self.p1ScorePoints == 3:
+            clsrc()
+            print('''
+            ########################
+                Player 1 WIN !!!
+            ########################
+            ''')
+            exit()
+        elif self.p2ScorePoints == 3:
+            clsrc()
+            print('''
+            ########################
+                Player 2 WIN !!!
+            ########################
+            ''')
+            exit()
+        else:
+            return False
