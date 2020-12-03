@@ -10,7 +10,8 @@ class Map(object):
     WALL = '#'
     generated_map = {}
     size_map = 0
-    size_map_od = 0 # additional var for other dimension
+    size_map_od = 0  # additional var for other dimension
+    generated_map_string = ""
 
     def neighbor_cell(self, cell):
         '''
@@ -24,7 +25,7 @@ class Map(object):
     def generate_boards(self, size):
         '''
         :param size: size of the map, prefered odd number for
-        :return:
+        :return: saved generated map to the global var
         '''
         if size % 2 == 0:
             self.size_map = size+1  # preventing from 'double walled' borders
@@ -35,7 +36,7 @@ class Map(object):
 
         max_width = int(float(size * 1.6))
         if max_width % 2 == 0:
-            max_width += 1  #preventing from 'double walled' borders
+            max_width += 1  # preventing from 'double walled' borders
 
         self.size_map_od = max_width  # updating global var
 
@@ -61,7 +62,7 @@ class Map(object):
                 else:
                     board[(j, i)] = self.EMPTY
 
-        # checking each cell for EMPTY or a WALL
+        # checking each cell for EMPTY or a WALL and adding coordinates to separate set
         for i in range(1, board_length_rows):
             for j in range(1, board_length_columns):
                 if board[(i, j)] == self.EMPTY:
@@ -91,15 +92,18 @@ class Map(object):
             connected_cells.add(A)
             connected_cells.add(B)
 
-        # saving generated map to variable
         self.generated_map = board
+        # saving generated map to variable
 
-    def print_map(self):
-        board = self.generated_map
-        size_y = self.size_map
+    def generate_string_map(self, read_map):
         lines = []
-        #print(size_y) # debug
-        size_x = self.size_map_od
-        for i in range(size_y):
-            lines.append(''.join(board[(i, j)] for j in range(size_x)))
-        print('\n'.join(lines))
+        for i in range(self.size_map):
+            lines.append(''.join(read_map[(i, j)] for j in range(self.size_map_od)))
+        self.generated_map_string = lines
+
+    def print_map(self, read_map=None):
+        if read_map is None:
+            read_map = self.generated_map
+        self.generate_string_map(read_map)
+        string_map = self.generated_map_string
+        print('\n'.join(string_map))
