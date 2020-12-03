@@ -2,16 +2,17 @@
 Class movement
 '''
 
+
 class Player():
 
     def move_up(self):
-        return print("Do gory")
+        return print("UP")
 
     def move_down(self):
-        return print("W dol")
+        return print("DOWN")
 
     def move_left(self):
-        return print("W lewo")
+        return print("LEFT")
 
     def move_right(self):
-        return print("W prawo")
+        return print("RIGHT")

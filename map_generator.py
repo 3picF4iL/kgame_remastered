@@ -10,6 +10,7 @@ class Map(object):
     WALL = '#'
     generated_map = {}
     size_map = 0
+    size_map_od = 0 # additional var for other dimension
 
     def neighbor_cell(self, cell):
         '''
@@ -30,11 +31,13 @@ class Map(object):
         else:
             self.size_map = size
 
+        max_height = self.size_map
+
         max_width = int(float(size * 1.6))
         if max_width % 2 == 0:
             max_width += 1  #preventing from 'double walled' borders
 
-        max_height = self.size_map
+        self.size_map_od = max_width  # updating global var
 
         board = {}
         space_cells = set()
@@ -96,7 +99,7 @@ class Map(object):
         size_y = self.size_map
         lines = []
         #print(size_y) # debug
-        size_x = int(float(size_y * 1.6))
+        size_x = self.size_map_od
         for i in range(size_y):
             lines.append(''.join(board[(i, j)] for j in range(size_x)))
         print('\n'.join(lines))
