@@ -1,5 +1,5 @@
 '''
-Klasa odpowiedzialna za ruch playera
+Class movement
 '''
 
 class Player():
