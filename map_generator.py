@@ -8,6 +8,8 @@ class Map(object):
 
     EMPTY = ' '
     WALL = '#'
+    generated_map = {}
+    size_map = 0
 
     def neighbor_cell(self, cell):
         '''
@@ -23,8 +25,16 @@ class Map(object):
         :param size: size of the map, prefered odd number for
         :return:
         '''
-        max_height = size
+        if size % 2 == 0:
+            self.size_map = size+1  # preventing from 'double walled' borders
+        else:
+            self.size_map = size
+
         max_width = int(float(size * 1.6))
+        if max_width % 2 == 0:
+            max_width += 1  #preventing from 'double walled' borders
+
+        max_height = self.size_map
 
         board = {}
         space_cells = set()
@@ -34,39 +44,30 @@ class Map(object):
         # creating walls
         for j in range(0, max_height):
             for i in range(0, max_width):
-                if (j == max_height-1 and i >= 0) or (i == max_width-1 and j >= 0) or i == 0 or i == max_width-1 or j == 0 or j == max_height-1:
+                if (j == max_height - 1 and i >= 0) or (i == max_width - 1 and j >= 0) or i == 0 or i == max_width - 1 or j == 0 or j == max_height - 1:
                     board[(j, i)] = self.WALL
 
         board_length_rows = max_height - 1
-        board_length_columns = max_width
+        board_length_columns = max_width - 1
 
         # creating grid required for Prim's algorithm
         for j in range(1, board_length_rows):
             for i in range(1, board_length_columns):
-                if j % 2 == 0 or i % 2 == 0:
+                if (j % 2 == 0 and j != board_length_rows % 2) or (i % 2 == 0 and i != board_length_rows % 2):
                     board[(j, i)] = self.WALL
                 else:
                     board[(j, i)] = self.EMPTY
 
-        # all_board = ''
-        # for j in range(0, board_length_rows):
-        #     for i in range(0, board_length_columns):
-        #         if i != board_length_columns-1:
-        #             all_board += (str(board[(j, i)]))
-        #         else:
-        #             all_board += (str(board[(j, i)]+'\n'))
-
-        #return print(all_board)
-
-        for i in range(1, board_length_rows-1):
-            for j in range(1, board_length_columns-1):
+        # checking each cell for EMPTY or a WALL
+        for i in range(1, board_length_rows):
+            for j in range(1, board_length_columns):
                 if board[(i, j)] == self.EMPTY:
                     space_cells.add((i, j))
                 if board[(i, j)] == self.WALL:
                     walls_cells.add((i, j))
-        lines = []
+
         connected_cells.add((1, 1))
-        # using non-optimized Prim's algorithm
+        # using non-optimized Prim's algorithm to make maze
         while len(connected_cells) < len(space_cells):
             doA, doB = None, None
             cns = list(connected_cells)
@@ -86,8 +87,16 @@ class Map(object):
             space_cells.add(A)
             connected_cells.add(A)
             connected_cells.add(B)
-        # put all lines togather
-        for i in range(board_length_rows):
-            lines.append(''.join(board[(i, j)] for j in range(board_length_columns)))
 
-        return lines
+        # saving generated map to variable
+        self.generated_map = board
+
+    def print_map(self):
+        board = self.generated_map
+        size_y = self.size_map
+        lines = []
+        #print(size_y) # debug
+        size_x = int(float(size_y * 1.6))
+        for i in range(size_y):
+            lines.append(''.join(board[(i, j)] for j in range(size_x)))
+        print('\n'.join(lines))
