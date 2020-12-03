@@ -2,61 +2,75 @@
 Class movement
 '''
 
+import math
+
 class Player:
 
+    key = False
     def __init__(self, pos_x, pos_y, board, avatar):
         self.x = pos_y
         self.y = pos_x
+        self.x_init = pos_y
+        self.y_init = pos_x
         self.avatar = avatar
+        self.board = board
         board[(pos_y, pos_x)] = avatar
 
         self.points = 0
-        self.result = 0
 
     def move_up(self, board):
-        print(self.x)
-        print(self.y)
-        print(board[(self.x-1, self.y)])
         if board[(self.x - 1, self.y)] in (" ", "k"):
+            if board[(self.x - 1, self.y)] == "k": self.key = True
             board[(self.x, self.y)] = " "
             board[(self.x-1, self.y)] = self.avatar
             self.x -= 1
-            if board[(self.x - 1, self.y)] == "k":
+            if self.key:
                 self.points += 1
+                self.key = False
+
         return print("UP")
 
     def move_down(self, board):
-        print(self.x)
-        print(self.y)
-        print(board[(self.x + 1, self.y)])
         if board[(self.x + 1, self.y)] in (" ", "k"):
+            if board[(self.x + 1, self.y)] == "k": self.key = True
             board[(self.x, self.y)] = " "
             board[(self.x + 1, self.y)] = self.avatar
             self.x += 1
-            if board[(self.x + 1, self.y)] == "k":
+            if self.key:
                 self.points += 1
+                self.key = False
         return print("DOWN")
 
     def move_left(self, board):
-        print(self.x)
-        print(self.y)
-        print(board[(self.x, self.y - 1)])
         if board[(self.x, self.y - 1)] in (" ", "k"):
+            if board[(self.x, self.y - 1)] == "k": self.key = True
             board[(self.x, self.y)] = " "
             board[(self.x, self.y - 1)] = self.avatar
             self.y -= 1
-            if board[(self.x, self.y - 1)] == "k":
+            if self.key:
                 self.points += 1
+                self.key = False
         return print("LEFT")
 
     def move_right(self, board):
-        print(self.x)
-        print(self.y)
-        print(board[(self.x, self.y + 1)])
         if board[(self.x, self.y + 1)] in (" ", "k"):
+            if board[(self.x, self.y + 1)] == "k": self.key = True
             board[(self.x, self.y)] = " "
             board[(self.x, self.y + 1)] = self.avatar
             self.y += 1
-            if board[(self.x, self.y + 1)] == "k":
+            if self.key:
                 self.points += 1
+                self.key = False
         return print("RIGHT")
+
+    def collision(self, x1, y1, x2, y2):
+        if (math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)) <= 1:  #
+            return True
+
+    def respawn(self, board):
+        board[(self.x, self.y)] = ' '
+        board[(self.x_init, self.y_init)] = self.avatar
+        self.x = self.x_init
+        self.y = self.y_init
+        self.points = 0
+
