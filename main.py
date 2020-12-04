@@ -12,7 +12,7 @@ from misc_functions import clsrc
 from msvcrt import getch
 
 _map = Map()  # map object created
-_map.generate_boards(10, "k", 11)   # generating map with argument corresponded to the desired map size,
+_map.generate_boards(10, "k", 10)   # generating map with argument corresponded to the desired map size,
                                     # symbol to collect, amount of the symbols
 interface = InterfaceCreator(_map.size_map_od)  # generating interface layout depends of the map size
 target_map = _map.generated_map  # creating variable target_map that can be used to make changes by players
