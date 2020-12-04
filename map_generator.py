@@ -149,7 +149,7 @@ class Map(object):
         while added_item < _amount:
             y = random.randint(1, self.size_map_od-1)
             x = random.randint(1, self.size_map-1)
-            if _board[(x, y)] == ' ' and ((x != 1 and y != 1) and (x != self.size_map_od-1 and y != self.size_map-1)):
+            if _board[(x, y)] == ' ' and ((x != 1 and y != 1) or (x != self.size_map_od-1 and y != self.size_map-1)):
                 _board[(x, y)] = _symbol
                 added_item += 1
         self.generated_map = _board
