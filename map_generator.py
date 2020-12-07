@@ -24,7 +24,7 @@ class Map(object):
 
     def neighbor_cell(self, cell):
         '''
-        Checking and generating next cell's neighbor  of current cell
+        Checking and generating next cell's neighbor of current cell
         :param cell: cell coordinates
         :return: generated coordinates of the cell's neighbors
         '''
@@ -149,10 +149,11 @@ class Map(object):
         while added_item < _amount:
             y = random.randint(1, self.size_map_od-1)
             x = random.randint(1, self.size_map-1)
-            if _board[(x, y)] == ' ' and ((x != 1 and y != 1) or (x != self.size_map_od-1 and y != self.size_map-1)):
+            if _board[(x, y)] == ' ' and ((x != 1 and y != 1) or (x != self.size_map-1 and y != self.size_map_od-1)):
                 _board[(x, y)] = _symbol
                 added_item += 1
         self.generated_map = _board
+
 
     @property
     def symbol_amount(self):
