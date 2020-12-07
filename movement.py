@@ -4,9 +4,11 @@ Class movement
 
 import math
 
+
 class Player:
 
     key = False
+
     def __init__(self, pos_x, pos_y, board, avatar):
         self.x = pos_y
         self.y = pos_x
@@ -27,8 +29,9 @@ class Player:
             if self.key:
                 self.points += 1
                 self.key = False
-
-        return print("UP")
+            return True
+        else:
+            return False
 
     def move_down(self, board):
         if board[(self.x + 1, self.y)] in (" ", "k"):
@@ -39,7 +42,9 @@ class Player:
             if self.key:
                 self.points += 1
                 self.key = False
-        return print("DOWN")
+            return True
+        else:
+            return False
 
     def move_left(self, board):
         if board[(self.x, self.y - 1)] in (" ", "k"):
@@ -50,7 +55,9 @@ class Player:
             if self.key:
                 self.points += 1
                 self.key = False
-        return print("LEFT")
+            return True
+        else:
+            return False
 
     def move_right(self, board):
         if board[(self.x, self.y + 1)] in (" ", "k"):
@@ -61,11 +68,18 @@ class Player:
             if self.key:
                 self.points += 1
                 self.key = False
-        return print("RIGHT")
+            return True
+        else:
+            return False
 
     def collision(self, x1, y1, x2, y2):
-        if (math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)) <= 1:  #
-            return True
+        try:
+            if (math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)) <= 1:  #
+                return True
+            else:
+                return False
+        except TypeError:
+            print("Incorrect type of forwarded params of the collision method")
 
     def respawn(self, board):
         board[(self.x, self.y)] = ' '
