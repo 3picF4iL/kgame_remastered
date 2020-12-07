@@ -36,6 +36,7 @@ moving = {
 while not end_game:
     clsrc()  # clear the console
     interface.print_interface()  # printing interface
+    print(_map.generated_map)
     _map.print_map(target_map)  # printing map
     get_key = ord(getch())  # get input key from user keyboard
     if get_key is 27:
