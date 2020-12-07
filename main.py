@@ -10,17 +10,18 @@ from map_generator import Map
 from interface_creator import InterfaceCreator
 from misc_functions import clsrc
 from msvcrt import getch
+from variables import *
 
 _map = Map()  # map object created
-_map.generate_boards(10, "k", 10)   # generating map with argument corresponded to the desired map size,
+
+_map.generate_boards(map_size, symbol, items_to_collect)   # generating map with argument corresponded to the desired map size,
                                     # symbol to collect, amount of the symbols
 interface = InterfaceCreator(_map.size_map_od)  # generating interface layout depends of the map size
 target_map = _map.generated_map  # creating variable target_map that can be used to make changes by players
 
-player_1 = Player(1, 1, target_map, "@")  # player 1 created
-player_2 = Player(_map.size_map_od-2, _map.size_map-2, target_map, "$")  # player 2 created
+player_1 = Player(1, 1, target_map, player_1_avatar)  # player 1 created
+player_2 = Player(_map.size_map_od-2, _map.size_map-2, target_map, player_2_avatar)  # player 2 created
 
-end_game = False
 moving = {
         53: player_2.move_down,
         56: player_2.move_up,
@@ -31,6 +32,7 @@ moving = {
         97: player_1.move_left,
         100: player_1.move_right
 }
+
 while not end_game:
     clsrc()  # clear the console
     interface.print_interface()  # printing interface
@@ -46,7 +48,7 @@ while not end_game:
     interface.p2Points = player_2.points
     if interface.check_score(_map.symbol_amount):
         interface.check_win()
-        target_map = _map.generate_boards(10, "k", 11)
+        target_map = _map.generate_boards(map_size, symbol, items_to_collect)
         player_1.respawn(target_map)
         player_2.respawn(target_map)
 
