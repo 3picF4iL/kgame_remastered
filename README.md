@@ -1,6 +1,6 @@
 # kgame_remastered
-RUN
-./main.py
+RUN in powershell \
+`python ./main.py`
 
 Keyboard setting:
 
